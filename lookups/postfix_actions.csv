@@ -1,0 +1,5 @@
+status,action
+sent,delivered
+expired,deleted
+deferred,deferred
+bounced,bounced
