@@ -1,2 +1,2 @@
-sourcetype,protocol,vendor_product
-postfix_syslog,SMTP,Postfix Email Server
+sourcetype,protocol,vendor,product
+postfix_syslog,SMTP,Postfix,Email Server
