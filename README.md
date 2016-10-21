@@ -1,4 +1,4 @@
-TA_postfix
+TA-postfix
 ==========
 
 This is a Splunk add-on for the Postfix mail server which aims to CIM
