@@ -4,10 +4,13 @@ python:
   - "2.7"
 cache: pip
 # command to install dependencies
-# install:
-#  - ./release.sh
+install:
+  - pip install splunk-appinspect.tar.gz
+  - splunk-appinspect list version 
 # command to run tests
-script: ./build.sh
+script:
+  - ./release.sh
+  - splunk-appinspect inspect $(<latest_release) --mode precert --included-tags cloud
 notifications:
   email:
     - lowell@kintyre.co
