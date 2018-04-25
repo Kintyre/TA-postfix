@@ -1,0 +1,9 @@
+*.bak
+.*.swp
+
+# Build artifacts
+*.tgz
+*.tar.gz
+latest_release
+venv
+
