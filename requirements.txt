@@ -1,0 +1,3 @@
+kintyre-splunk-conf
+bump2version
+pre-commit

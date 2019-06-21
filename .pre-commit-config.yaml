@@ -1,0 +1,25 @@
+---
+
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  sha: v2.0.0
+  hooks:
+    - id: trailing-whitespace
+      exclude: README\.md
+    - id: end-of-file-fixer
+      exclude: (README\.md|\.bumpversion.cfg)$
+    - id: check-json
+    - id: check-xml
+    - id: check-ast
+    - id: check-added-large-files
+      args: [ '--maxkb=50' ]
+    - id: check-merge-conflict
+    - id: mixed-line-ending
+      args: [ '--fix=lf' ]
+
+- repo: https://github.com/Kintyre/ksconf
+  sha: v0.7.4
+  hooks:
+    - id: ksconf-check
+    - id: ksconf-sort
+      exclude: logging\.conf
