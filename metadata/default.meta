@@ -1,3 +1,17 @@
 []
-access = read : [ * ], write : [ admin ]
+access = read : [ * ], write : [ admin, sc_admin ]
+
+[eventtypes]
+export = system
+
+[lookups]
+export = system
+
+[props]
+export = system
+
+[tags]
+export = system
+
+[transforms]
 export = system
