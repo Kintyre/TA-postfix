@@ -25,5 +25,9 @@ jobs:
     - name: ksconf package build
       run: |
         # stop the build if there are Python syntax errors or undefined names
+        pwd
+        ls -al
+        git status
+        git tag
         ./release.sh
         #flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
