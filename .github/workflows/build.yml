@@ -40,27 +40,26 @@ jobs:
         echo "Running release.sh"
         ./release.sh ${{ github.ref }}
         #flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Create Release
+      id: create_release
+      if: ${{ startsWith(github.ref, "v" }}
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
 
-     - name: Create Release
-        id: create_release
-        if: ${{ startsWith(github.ref, "v" }}
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset
-        id: upload-release-asset
-        if: ${{ startsWith(github.ref, "v" }}
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: TA-postfix-*.tgz
-          asset_content_type: application/zip
+    - name: Upload Release Asset
+      id: upload-release-asset
+      if: ${{ startsWith(github.ref, "v" }}
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: TA-postfix-*.tgz
+        asset_content_type: application/gzip
