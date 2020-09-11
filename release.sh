@@ -1,7 +1,8 @@
 #!/bin/bash
 NAME="TA-postfix"
 REF="${1:-HEAD}"
-VER=$(git describe --tags "$REF")
+#VER=$(git describe --tags "$REF")
+VER=$(cat default/app.conf | grep version | cut -d' ' -f3)
 
 [[ -z $VER ]] && { echo "Can't describe ref $REF"; exit 1; }
 
