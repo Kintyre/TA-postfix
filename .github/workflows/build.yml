@@ -31,6 +31,7 @@ jobs:
         pip install kintyre-splunk-conf==v0.8-beta5
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: ksconf package build
+      id: buildpkg
       run: |
         # stop the build if there are Python syntax errors or undefined names
         pwd
@@ -39,6 +40,7 @@ jobs:
         git tag
         echo "Running release.sh"
         ./release.sh ${{ github.ref }}
+        echo "##[set-output name=version;]$(cat latest_release)"
         #flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Create Release
       id: create_release
@@ -62,4 +64,5 @@ jobs:
         # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: TA-postfix-*.tgz
+        asset_name: ${{ steps.buildpkg.outputs.version }}
         asset_content_type: application/gzip
