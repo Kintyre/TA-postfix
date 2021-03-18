@@ -1,7 +1,7 @@
 TA-postfix
 ==========
 
-[![Build Status](https://travis-ci.org/Kintyre/TA-postfix.svg?branch=master)](https://travis-ci.org/Kintyre/TA-postfix)
+[![Build Status](https://github.com/Kintyre/TA-postfix/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/Kintyre/TA-postfix/actions)
 
 **Release:** v0.8.5
 
