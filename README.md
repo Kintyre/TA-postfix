@@ -3,6 +3,8 @@ TA-postfix
 
 [![Build Status](https://travis-ci.org/Kintyre/TA-postfix.svg?branch=master)](https://travis-ci.org/Kintyre/TA-postfix)
 
+**Release:** v0.8.3
+
 This is a Splunk add-on for the Postfix mail server which aims to CIM
 compliant, targeting the Email data model.
 
@@ -65,6 +67,7 @@ Contributors
 
  * Lowell Alleman <lowell@kintyre.co>
  * Romain Delmotte <romain.delmotte@experian.com>
+ * barrettnet
  * Luke Harris via the "Splunk for Postfix" app (v1.1.1), 
    Field extractions borrowed. https://splunkbase.splunk.com/app/933/
 
