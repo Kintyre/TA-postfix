@@ -9,6 +9,7 @@ repos:
     - id: end-of-file-fixer
       exclude: (README\.md|\.bumpversion.cfg)$
     - id: check-json
+    - id: check-yaml
     - id: check-xml
     - id: check-ast
     - id: check-added-large-files

@@ -1,0 +1,74 @@
+name: Python package
+
+on:
+  push:
+    tags:
+    - 'v*'
+    branches:
+    - master
+    # for github action testing...
+    - githubactions
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        #python-version: [2.7, 3.7]
+        python-version: [3.7]
+    steps:
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 10
+    - uses: FranzDiebold/github-env-vars-action@v1.2.0
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install kintyre-splunk-conf==v0.8-beta5
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: ksconf package build
+      id: buildpkg
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        pwd
+        ls -al
+        git status
+        git tag
+        echo "Build number ${{ github.run_id}}"
+        echo "Running release.sh"
+        ./release.sh ${{ github.ref }}
+        echo "##[set-output name=archive;]$(cat latest_release)"
+        #flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Create Release
+      id: create_release
+      if: contains(github.ref, 'tags/v')
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      id: upload-release-asset
+      if: contains(github.ref, 'tags/v')
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ steps.buildpkg.outputs.archive}}
+        asset_name: ${{ steps.buildpkg.outputs.archive}}
+        asset_content_type: application/gzip
