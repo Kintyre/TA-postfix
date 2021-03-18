@@ -1,4 +1,4 @@
-name: Python package
+name: Build Splunk app
 
 on:
   push:
@@ -6,8 +6,6 @@ on:
     - 'v*'
     branches:
     - master
-    # for github action testing...
-    - githubactions
 
 jobs:
 
@@ -15,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        #python-version: [2.7, 3.7]
         python-version: [3.7]
     steps:
     - name: Set up Python ${{ matrix.python-version }}
@@ -29,11 +26,11 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 10
-    - uses: FranzDiebold/github-env-vars-action@v1.2.0
+    - uses: FranzDiebold/github-env-vars-action@v1.2.1
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install kintyre-splunk-conf==v0.8-beta5
+        pip install kintyre-splunk-conf==v0.8-b6
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: ksconf package build
       id: buildpkg
